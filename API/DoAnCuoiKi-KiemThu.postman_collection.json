@@ -1,0 +1,1128 @@
+{
+	"info": {
+		"_postman_id": "9e74a3b4-bfa2-416e-ba9c-66c49f028aa5",
+		"name": "DoAnCuoiKi-KiemThu",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19996991"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(pm.response.json().hasOwnProperty('data'))   {\r",
+							"    pm.collectionVariables.get('variable_key');\r",
+							"    pm.test(\"set access Token into enviroment variable\",()=> {\r",
+							"        var res = pm.response.json();\r",
+							"        var token= res.data.acces_token;\r",
+							"        var email = res.data.email;\r",
+							"        var name = res.data.name;\r",
+							"        var password = res.data.password;\r",
+							"        var newUserId = res.data.id;\r",
+							"        pm.collectionVariables.set(\"name\",name);\r",
+							"        pm.collectionVariables.set(\"token\",token);\r",
+							"        pm.collectionVariables.set(\"email\",email);\r",
+							"        pm.collectionVariables.set(\"newUserId\",newUserId);\r",
+							"        pm.collectionVariables.set(\"password\",password);\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"{{$randomUserName}}\",\r\n    \"email\":\"{{$randomEmail}}\",\r\n    \"password\":\"{{$randomPassword}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = JSON.parse(responseBody);\r",
+							"if(pm.response.json().hasOwnProperty('data'))   {\r",
+							"    pm.collectionVariables.get('variable_key');\r",
+							"    pm.test(\"set access Token into enviroment variable\",()=> {\r",
+							"        pm.collectionVariables.set('token', res.data.access_token)\r",
+							"    });\r",
+							"}\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"{{email}}\",\r\n    \"password\":\"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login with password invalid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"{{email}}\",\r\n    \"password\":\"12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login with email invalid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"111{{email}}\",\r\n    \"password\":\"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "size ",
+							"value": "37",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/products",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "color",
+							"value": "orange",
+							"disabled": true
+						},
+						{
+							"key": "size",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "sortType",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "false",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products with color",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "size ",
+							"value": "37",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/products?color=orange",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "color",
+							"value": "orange"
+						},
+						{
+							"key": "size",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "sortType",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "false",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products with color, size",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "size ",
+							"value": "37",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/products?color=orange&size=36",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "color",
+							"value": "orange"
+						},
+						{
+							"key": "size",
+							"value": "36"
+						},
+						{
+							"key": "sortType",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "false",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "female",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products with color, size, category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "size ",
+							"value": "37",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/products?color=orange&size=36&category=female",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "color",
+							"value": "orange"
+						},
+						{
+							"key": "size",
+							"value": "36"
+						},
+						{
+							"key": "sortType",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "false",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "female"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products with sort, sortType",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "size ",
+							"value": "37",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/products?sortType=1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "color",
+							"value": "orange",
+							"disabled": true
+						},
+						{
+							"key": "size",
+							"value": "36",
+							"disabled": true
+						},
+						{
+							"key": "sortType",
+							"value": "1"
+						},
+						{
+							"key": "sort",
+							"value": "true",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "female",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(pm.response.json().hasOwnProperty('data'))   {\r",
+							"    pm.collectionVariables.get('variable_key');\r",
+							"    pm.test(\"set orderId into enviroment variable\",()=> {\r",
+							"        var res = pm.response.json();\r",
+							"        var id = res.data.id;\r",
+							"        pm.collectionVariables.set(\"orderId\",id);\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkRlb25kcmVfU2NoYWRlbjcwQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJrZUpWWVA2MFNxMDFYXzAiLCJpYXQiOjE2NTY1NzQ5OTAsImV4cCI6MTY1NjU3ODU5MH0.l-pOg1L6EN8wkJF-j0TU3f5dGYLy0opjDVO8RTSzfqE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"shoesId\":5,\r\n    \"quantity\": 2,\r\n    \"customerName\": \"{{name}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"user_id\": \"{{newUserId}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/orders",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Orders without Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkRlb25kcmVfU2NoYWRlbjcwQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJrZUpWWVA2MFNxMDFYXzAiLCJpYXQiOjE2NTY1NzQ5OTAsImV4cCI6MTY1NjU3ODU5MH0.l-pOg1L6EN8wkJF-j0TU3f5dGYLy0opjDVO8RTSzfqE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"shoesId\": 5,\r\n    \"quantity\": 2,\r\n    \"customerName\": \"{{$randomUserName}}\",\r\n    \"email\": \"{{$randomEmail}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/orders",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Orders with shoes is not exist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// pm.test(\"Status code is 401\", function () {\r",
+							"//     pm.response.to.have.status(401);\r",
+							"// });\r",
+							"\r",
+							"// pm.test(\"shoes not found!!\", function () {\r",
+							"//     var jsonData = pm.response.json();\r",
+							"//     pm.expect(jsonData.data.shoesId).to.eql(\"shoes not found!!\");\r",
+							"// });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkRlb25kcmVfU2NoYWRlbjcwQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJrZUpWWVA2MFNxMDFYXzAiLCJpYXQiOjE2NTY1NzQ5OTAsImV4cCI6MTY1NjU3ODU5MH0.l-pOg1L6EN8wkJF-j0TU3f5dGYLy0opjDVO8RTSzfqE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"shoesId\":0,\r\n    \"quantity\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/orders",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Orders with shoes is out of stock",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// pm.test(\"Status code is 401\", function () {\r",
+							"//     pm.response.to.have.status(401);\r",
+							"// });\r",
+							"\r",
+							"// pm.test(\"This shoes is out of stock!!\", function () {\r",
+							"//     var jsonData = pm.response.json();\r",
+							"//     pm.expect(jsonData.message).to.eql(\"This shoes is out of stock!!\");\r",
+							"// });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkRlb25kcmVfU2NoYWRlbjcwQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJrZUpWWVA2MFNxMDFYXzAiLCJpYXQiOjE2NTY1NzQ5OTAsImV4cCI6MTY1NjU3ODU5MH0.l-pOg1L6EN8wkJF-j0TU3f5dGYLy0opjDVO8RTSzfqE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"shoesId\":1,\r\n    \"quantity\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/orders",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Orders with shoes in stock is less than order's quantity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// pm.test(\"Status code is 401\", function () {\r",
+							"//     pm.response.to.have.status(401);\r",
+							"// });\r",
+							"\r",
+							"// pm.test(\"Just have only 100!\", function () {\r",
+							"//     var jsonData = pm.response.json();\r",
+							"//     pm.expect(jsonData.message).to.eql(\"Just have only 100!\");\r",
+							"// });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkRlb25kcmVfU2NoYWRlbjcwQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJrZUpWWVA2MFNxMDFYXzAiLCJpYXQiOjE2NTY1NzQ5OTAsImV4cCI6MTY1NjU3ODU5MH0.l-pOg1L6EN8wkJF-j0TU3f5dGYLy0opjDVO8RTSzfqE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"shoesId\":2,\r\n    \"quantity\": 1000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/orders",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check order without login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// pm.test(\"Status code is 200\", function () {\r",
+							"//     pm.response.to.have.status(200);\r",
+							"// });\r",
+							"\r",
+							"// pm.test(\"Incorrect email or password\", function () {\r",
+							"//     var jsonData = pm.response.json();\r",
+							"//     pm.expect(jsonData.message).to.eql(\"Incorrect email or password\");\r",
+							"// });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"{{email}}\",\r\n    \"orderId\": {{orderId}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/orders",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check order with login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// pm.test(\"Status code is 200\", function () {\r",
+							"//     pm.response.to.have.status(200);\r",
+							"// });\r",
+							"\r",
+							"// pm.test(\"Incorrect email or password\", function () {\r",
+							"//     var jsonData = pm.response.json();\r",
+							"//     pm.expect(jsonData.message).to.eql(\"Incorrect email or password\");\r",
+							"// });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\":{{newUserId}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/orders",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check order without login email, orderId is empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// pm.test(\"Status code is 401\", function () {\r",
+							"//     pm.response.to.have.status(401);\r",
+							"// });\r",
+							"\r",
+							"// pm.test(\"Need field email, orderId\", function () {\r",
+							"//     var jsonData = pm.response.json();\r",
+							"//     pm.expect(jsonData.message).to.eql(\"Need field email, orderId\");\r",
+							"// });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/orders",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search address shop",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// pm.test(\"Status code is 200\", function () {\r",
+							"//     pm.response.to.have.status(200);\r",
+							"// });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/auth/shops?branch=Gò Vấp",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"shops"
+					],
+					"query": [
+						{
+							"key": "branch",
+							"value": "Gò Vấp"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete order by Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkRlb25kcmVfU2NoYWRlbjcwQGhvdG1haWwuY29tIiwicGFzc3dvcmQiOiJrZUpWWVA2MFNxMDFYXzAiLCJpYXQiOjE2NTY1NzQ5OTAsImV4cCI6MTY1NjU3ODU5MH0.l-pOg1L6EN8wkJF-j0TU3f5dGYLy0opjDVO8RTSzfqE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/orders/{{orderId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"orders",
+						"{{orderId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete order by Id with order is not exist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// pm.test(\"Status code is 401\", function () {\r",
+							"//     pm.response.to.have.status(401);\r",
+							"// });\r",
+							"\r",
+							"// pm.test(\"Order not found!!\", function () {\r",
+							"//     var jsonData = pm.response.json();\r",
+							"//     pm.expect(jsonData.message).to.eql(\"Order not found!!\");\r",
+							"// });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/orders/0",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"orders",
+						"0"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "name",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "newUserId",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "orderId",
+			"value": ""
+		}
+	]
+}
